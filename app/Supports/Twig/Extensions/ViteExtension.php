@@ -33,6 +33,7 @@ class ViteExtension extends AbstractExtension
     public function generateViteAssetsHtml(array $assets): string
     {
         $html = $this->generateViteClientModuleHtml();
+
         foreach ($assets as $asset) {
             $html .= $this->isAssetOnViteServer($asset)
                 ? $this->renderAssetFromViteServer($asset)
@@ -45,6 +46,7 @@ class ViteExtension extends AbstractExtension
     private function isAssetOnViteServer(string $asset): bool
     {
         static $assetCache = [];
+
         return $assetCache[$asset] ??= $this->checkIfAssetExistsOnViteServer($asset);
     }
 
@@ -65,6 +67,7 @@ class ViteExtension extends AbstractExtension
     private function getManifestContents(): array
     {
         static $manifestCache = null;
+
         return $manifestCache ??= $this->loadManifestFile();
     }
 
