@@ -1,6 +1,6 @@
 <?php
 
-//use \App\Commands as SlimCommand;
+use App\Commands as SlimCommand;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Tools\Console\Command;
 
@@ -20,5 +20,5 @@ return static fn(DependencyFactory $dependencyFactory): array => [
     new Command\DiffCommand($dependencyFactory),
 
     // Slim Commands
-//    new SlimCommand\RouteList()
+    new SlimCommand\RouteList()
 ];
