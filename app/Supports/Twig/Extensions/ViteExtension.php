@@ -88,7 +88,7 @@ class ViteExtension extends AbstractExtension
         return rtrim($this->viteServerUrl, '/') . '/' . ltrim($asset, '/');
     }
 
-    private function renderAsset(string $asset, string $url): string
+    private function renderAsset(string $asset, string $url): string|Markup
     {
         return match (pathinfo($asset, PATHINFO_EXTENSION)) {
             'js', 'mjs' => $this->generateScriptTag($url),
@@ -97,7 +97,7 @@ class ViteExtension extends AbstractExtension
         };
     }
 
-    private function renderAssetFromViteServer(string $asset): string
+    private function renderAssetFromViteServer(string $asset): string|Markup
     {
         return $this->renderAsset($asset, $this->buildViteServerAssetUrl($asset));
     }
@@ -107,17 +107,17 @@ class ViteExtension extends AbstractExtension
         return $this->renderAsset($asset, $this->buildManifestAssetUrl($asset));
     }
 
-    private function generateScriptTag(string $src): string
+    private function generateScriptTag(string $src): string|Markup
     {
         return new Markup("<script type=\"module\" crossorigin src=\"{$src}\"></script>\n", 'UTF-8');
     }
 
-    private function generateLinkTag(string $href): string
+    private function generateLinkTag(string $href): string|Markup
     {
         return new Markup("<link rel=\"stylesheet\" href=\"{$href}\">\n", 'UTF-8');
     }
 
-    private function generateViteClientModuleHtml(): string
+    private function generateViteClientModuleHtml(): string|Markup
     {
         return $this->isAssetOnViteServer(self::VITE_CLIENT_SCRIPT)
             ? $this->generateScriptTag($this->buildViteServerAssetUrl(self::VITE_CLIENT_SCRIPT))
