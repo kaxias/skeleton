@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+
+use DI\Container;
+use Doctrine\ORM\Tools\Console\ConsoleRunner as DoctrineConsoleRunner;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider;
+use Symfony\Component\Console\Application;
+
+(require dirname(__DIR__) . '/bootstrap/container.php')->call(function (
+    Container             $container,
+    Application           $application,
+    EntityManagerProvider $entityManagerProvider
+) {
+    DoctrineConsoleRunner::addCommands($application, $entityManagerProvider);
+    $application->addCommands($container->call(require_once base_path('bin\commands.php')));
+
+    return $application;
+})->run();
